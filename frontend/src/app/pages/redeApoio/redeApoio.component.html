@@ -1,0 +1,31 @@
+<section class="min-h-screen bg-[#F5F5F5] flex flex-col justify-center items-center px-4">
+  <div class="w-full max-w-md bg-[#FFFFFF] p-8 rounded-md shadow-md border border-[#9E9E9E]">
+    <h1 class="text-3xl font-bold text-[#424242] mb-5 text-center">
+      Rede de Apoio
+    </h1>
+    <p class="text-[#424242] text-center mb-4">
+      Aqui você encontra contatos de instituições que podem ajudar.
+    </p>
+
+    <section *ngIf="carregando" class="text-center py-5">
+      <p class="text-[#9E9E9E]">Carregando informações...</p>
+    </section>
+
+    <section *ngIf="!carregando && redeApoio.length > 0" class="flex flex-col gap-4">
+      <div *ngFor="let apoio of redeApoio"
+        class="p-4 rounded border border-[#d7c100] bg-[#FAFAFA] shadow-sm">
+        <h2 class="text-xl font-semibold text-[#bb9f00]">{{ apoio.nome }}</h2>
+        <p class="text-[#424242]"><strong>Tipo:</strong> {{ apoio.tipo }}</p>
+        <p *ngIf="apoio.contato" class="text-[#424242]"><strong>Contato:</strong> {{ apoio.contato }}</p>
+      </div>
+    </section>
+
+    <section *ngIf="!carregando && redeApoio.length === 0" class="text-center py-5">
+      <p class="text-[#9E9E9E]">Nenhuma rede de apoio cadastrada.</p>
+    </section>
+
+    <p class="text-center text-[#9E9E9E] text-sm mt-5">
+      <a href="/menu" class="text-[#000000f3] hover:underline">Voltar ao menu</a>
+    </p>
+  </div>
+</section>

@@ -1,0 +1,111 @@
+<section class="min-h-screen bg-[#F5F5F5] flex flex-col justify-center items-center px-4">
+  <div class="w-full max-w-lg bg-[#FFFFFF] p-8 rounded-md shadow-md border border-[#9E9E9E]">
+    <h1 class="text-3xl font-bold text-[#424242] mb-5 text-center">
+      Depoimentos
+    </h1>
+    <p class="text-[#424242] text-center mb-2">
+      Compartilhe sua experiência e leia depoimentos de outras pessoas.
+    </p>
+
+    <form
+      [formGroup]="depoimentoForm"
+      (ngSubmit)="onCadastrar()"
+      novalidate
+      class="flex flex-col gap-3 w-full"
+    >
+      <div class="flex flex-col">
+        <label for="nome" class="mb-1 text-[#424242] font-semibold">Seu Nome</label>
+        <input
+          id="nome"
+          type="text"
+          formControlName="nome"
+          placeholder="Digite seu nome"
+          class="h-10 px-3 rounded border border-[#9E9E9E] focus:outline-none focus:ring-2 focus:ring-[#d7c100]"
+        />
+      </div>
+
+      <div class="flex flex-col">
+        <label for="titulo" class="mb-1 text-[#424242] font-semibold">Título</label>
+        <input
+          id="titulo"
+          type="text"
+          formControlName="titulo"
+          placeholder="Ex: Minha experiência"
+          class="h-10 px-3 rounded border border-[#9E9E9E] focus:outline-none focus:ring-2 focus:ring-[#d7c100]"
+        />
+      </div>
+
+      <div class="flex flex-col">
+        <label for="texto" class="mb-1 text-[#424242] font-semibold">Seu Depoimento</label>
+        <textarea
+          id="texto"
+          formControlName="texto"
+          placeholder="Escreva sua mensagem"
+          maxlength="500"
+          class="h-20 px-3 py-2 rounded border border-[#9E9E9E] focus:outline-none focus:ring-2 focus:ring-[#d7c100]"
+        ></textarea>
+      </div>
+
+      <div class="flex gap-2">
+        <button
+          type="submit"
+          [disabled]="!depoimentoForm.valid"
+          class="bg-[#d7c100] disabled:opacity-50 text-white font-semibold rounded py-2 hover:bg-[#c0b000] transition-colors flex-1"
+        >
+          {{ editandoId ? 'Atualizar Depoimento' : 'Enviar Depoimento' }}
+        </button>
+        <button
+          *ngIf="editandoId"
+          type="button"
+          (click)="cancelarEdicao()"
+          class="bg-gray-400 text-white font-semibold rounded py-2 hover:bg-gray-500 transition-colors flex-1"
+        >
+          Cancelar
+        </button>
+      </div>
+
+      <div *ngIf="mensagemSucesso" class="mt-4 text-center text-green-600 font-semibold">
+        {{ mensagemSucesso }}
+      </div>
+    </form>
+
+    <div class="mt-8">
+      <h2 class="text-xl font-semibold text-[#424242] mb-4">Últimos Depoimentos</h2>
+      <div *ngIf="depoimentos.length > 0; else semDepoimentos" class="flex flex-col gap-3">
+        <div *ngFor="let d of depoimentos" class="p-4 rounded border border-[#9E9E9E] bg-[#FAFAFA] relative">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="font-bold text-[#424242]">{{ d.titulo }}</p>
+              <p class="text-[#616161] text-sm italic">por {{ d.nome }}</p>
+              <p class="text-[#424242] mt-2">{{ d.texto }}</p>
+              <p class="text-xs text-[#9E9E9E] mt-1">{{ d.dataCriacao | date:'short' }}</p>
+            </div>
+            <div class="flex flex-col gap-1 ml-2">
+              <button
+                (click)="onEditar(d)"
+                class="text-blue-600 text-sm hover:underline"
+                type="button"
+              >
+                Editar
+              </button>
+              <button
+                (click)="onExcluir(d.id!)"
+                class="text-red-600 text-sm hover:underline"
+                type="button"
+              >
+                Excluir
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #semDepoimentos>
+        <p class="text-center text-[#9E9E9E]">Nenhum depoimento disponível ainda.</p>
+      </ng-template>
+    </div>
+
+    <p class="text-center text-[#9E9E9E] text-sm mt-6">
+      <a href="/menu" class="text-[#000000f3] hover:underline">Voltar ao menu</a>
+    </p>
+  </div>
+</section>

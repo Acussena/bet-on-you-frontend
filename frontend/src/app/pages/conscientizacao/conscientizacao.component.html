@@ -1,0 +1,72 @@
+<section class="min-h-screen bg-[#F5F5F5] flex flex-col justify-center items-center px-4">
+  <div class="w-full max-w-md bg-[#FFFFFF] p-8 rounded-md shadow-md border border-[#9E9E9E]">
+    <h1 class="text-3xl font-bold text-[#424242] mb-5 text-center">
+      Conscientização Financeira
+    </h1>
+    <p class="text-[#424242] text-center mb-2">
+      Descubra quanto você poderia ter acumulado se tivesse investido o valor gasto em apostas.
+    </p>
+
+    <section class="flex justify-center gap-5 pt-5">
+      <form
+        [formGroup]="conscientizacaoForm"
+        (ngSubmit)="calcularImpacto()"
+        novalidate
+        class="flex flex-col gap-3 w-full"
+      >
+        <div class="flex flex-col">
+          <label for="valorApostado" class="mb-1 text-[#424242] font-semibold">
+            Valor médio gasto em apostas por mês (R$)
+          </label>
+          <input
+            id="valorApostado"
+            type="number"
+            step="0.01"
+            formControlName="valorApostado"
+            placeholder="Ex: 200.00"
+            class="h-10 px-3 rounded border border-[#9E9E9E] focus:outline-none focus:ring-2 focus:ring-[#d7c100]"
+          />
+          <span class="text-xs text-[#d7c1003] mt-1">
+            @if(conscientizacaoForm.get('valorApostado')?.invalid){
+              O valor é obrigatório e deve ser maior que zero.
+            }
+          </span>
+        </div>
+
+        <button
+          type="submit"
+          [disabled]="!conscientizacaoForm.valid"
+          class="bg-[#d7c100] disabled:opacity-50 text-white font-semibold rounded py-2 hover:bg-[#d7c100] transition-colors"
+        >
+          Calcular Impacto
+        </button>
+
+        <p class="text-center text-[#9E9E9E] text-sm">
+          <a href="/menu" class="text-[#000000f3] hover:underline">Voltar ao menu</a>
+        </p>
+      </form>
+    </section>
+
+    @if(resultadoAnual !== null){
+      <div class="mt-6 space-y-3">
+        <div class="p-4 rounded bg-[#E3F2FD] border border-[#90CAF9]">
+          <p class="font-semibold text-[#0D47A1]">
+            Você gasta em média <strong>R$ {{ resultadoMensal }}</strong> por mês em apostas.
+          </p>
+        </div>
+
+        <div class="p-4 rounded bg-[#FFF8E1] border border-[#FFD54F]">
+          <p class="font-semibold text-[#E65100]">
+            Em 1 ano, isso representa <strong>R$ {{ resultadoAnual }}</strong>.
+          </p>
+        </div>
+
+        <div class="p-4 rounded bg-[#E8F5E9] border border-[#A5D6A7]">
+          <p class="font-semibold text-[#1B5E20]">
+            Se tivesse investido, poderia ter <strong>R$ {{ investimentoAnual }}</strong> em 1 ano.
+          </p>
+        </div>
+      </div>
+    }
+  </div>
+</section>

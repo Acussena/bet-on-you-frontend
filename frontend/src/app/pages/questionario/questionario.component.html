@@ -1,0 +1,95 @@
+<section class="min-h-screen bg-[#F5F5F5] flex flex-col justify-center items-center px-4">
+  <div class="w-full max-w-md bg-[#FFFFFF] p-8 rounded-md shadow-md border border-[#9E9E9E]">
+    <h1 class="text-3xl font-bold text-[#424242] mb-5 text-center">
+      Questionário
+    </h1>
+    <p class="text-[#424242] text-center mb-2">
+      Responda as perguntas abaixo para concluirmos seu registro.
+    </p>
+
+    <form
+      [formGroup]="questionarioForm"
+      (ngSubmit)="onCadastrar()"
+      novalidate
+      class="flex flex-col gap-3 w-full"
+    >
+      <div class="flex flex-col">
+        <label for="frequenciaApostas" class="mb-1 text-[#424242] font-semibold">
+          Frequência de Apostas
+        </label>
+        <select
+          id="frequenciaApostas"
+          formControlName="frequenciaApostas"
+          class="h-10 px-3 rounded border border-[#9E9E9E] focus:outline-none focus:ring-2 focus:ring-[#d7c100]"
+        >
+          <option value="" disabled selected>Selecione a frequência</option>
+          <option value="1">1 - Raramente</option>
+          <option value="2">2 - Algumas vezes por mês</option>
+          <option value="3">3 - Semanalmente</option>
+          <option value="4">4 - Várias vezes por semana</option>
+          <option value="5">5 - Diariamente</option>
+        </select>
+        <span class="text-xs text-[#d7c100] mt-1" *ngIf="questionarioForm.get('frequenciaApostas')?.invalid && questionarioForm.get('frequenciaApostas')?.touched">
+          A frequência é obrigatória.
+        </span>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="valorMensal" class="mb-1 text-[#424242] font-semibold">
+          Valor Médio Gasto por Mês (R$)
+        </label>
+        <input
+          id="valorMensal"
+          type="number"
+          step="0.01"
+          formControlName="valorMensal"
+          placeholder="Ex: 200.00"
+          class="h-10 px-3 rounded border border-[#9E9E9E] focus:outline-none focus:ring-2 focus:ring-[#d7c100]"
+        />
+        <span class="text-xs text-[#d7c100] mt-1" *ngIf="questionarioForm.get('valorMensal')?.invalid && questionarioForm.get('valorMensal')?.touched">
+          O valor é obrigatório e deve ser maior que zero.
+        </span>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="motivo" class="mb-1 text-[#424242] font-semibold">Motivo (opcional)</label>
+        <textarea
+          id="motivo"
+          formControlName="motivo"
+          placeholder="Digite o motivo principal das apostas..."
+          maxlength="255"
+          class="h-20 px-3 py-2 rounded border border-[#9E9E9E] focus:outline-none focus:ring-2 focus:ring-[#d7c100]"
+        ></textarea>
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="!questionarioForm.valid"
+        class="bg-[#d7c100] disabled:opacity-50 text-white font-semibold rounded py-2 hover:bg-[#d7c100] transition-colors"
+      >
+        Enviar Respostas
+      </button>
+
+      <div *ngIf="classificacaoRisco" class="mt-4 text-center">
+        <p class="text-lg font-semibold">
+          Sua classificação de risco: 
+          <span 
+            [ngClass]="{
+              'text-green-600': classificacaoRisco === 'Baixo Risco',
+              'text-yellow-600': classificacaoRisco === 'Médio Risco',
+              'text-red-600': classificacaoRisco === 'Alto Risco',
+              'text-purple-700': classificacaoRisco === 'Crítico'
+            }"
+          >
+            {{ classificacaoRisco }}
+          </span>
+        </p>
+        <p class="mt-2 text-sm text-gray-700">{{ mensagemDica }}</p>
+      </div>
+
+      <p class="text-center text-[#9E9E9E] text-sm mt-3">
+        <a href="/menu" class="text-[#000000f3] hover:underline">Voltar ao menu</a>
+      </p>
+    </form>
+  </div>
+</section>
